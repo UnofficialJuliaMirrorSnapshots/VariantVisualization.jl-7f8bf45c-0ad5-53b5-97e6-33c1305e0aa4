@@ -1,0 +1,10 @@
+*.jl.cov
+*.jl.*.cov
+*.jl.mem
+*.pdf
+*.html
+.DS_Store
+.ipynb_checkpoints/
+Manifest.toml
+docs/build
+docs/site
