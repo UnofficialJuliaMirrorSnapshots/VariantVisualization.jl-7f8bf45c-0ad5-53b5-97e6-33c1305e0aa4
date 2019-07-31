@@ -1,5 +1,6 @@
-# VariantVisualization.jl
-## Visualization of Variants
+# VIVA: A VCF File Visualization Tool and VariantVisualization.jl
+
+## Visualization of Genomic Variants from VCF Files
 
 
 | MacOS / Linux | Windows | License | Test Coverage | Documentation | Lifecycle |
@@ -11,156 +12,80 @@
 
 VariantVisualization.jl is a package we built specifically to power the genetics visualization tool, *VIVA*.
 
-*VIVA* is a user-friendly command line tool for creating publication quality graphics from Variant Call Format (VCF) files. It has been designed for clinicians and bioinformaticians to explore their VCF files visually. In a single command, users can extract genotype or read depth information and plot trends in interactive categorical heatmaps and scatter plots of average read depth values. VIVA offers a robust set of filters to select variants and samples of interest for analysis. VIVA is especially useful in early data exploration for identifying batch effect and sources of poor read depth, as well as identifying distribution of disease causing variants in a set of clinical samples.
+*VIVA* is a user-friendly command line tool for creating publication quality graphics from Variant Call Format (VCF) files. It has been designed for clinicians and bioinformaticians to explore their VCF files visually. In a single command, users can extract genotype or read depth information and plot trends in interactive categorical heatmaps and scatter plots of average read depth values. VIVA offers a robust set of filters to select variants and samples of interest for analysis. VIVA is especially useful in early data exploration for identifying batch effect and sources of poor read depth in sequencing experiments, as well as identifying distribution of disease causing variants in a set of clinical samples.
 
 
 ## Getting Started:
-
-Note: Once you have set up VIVA, you can quickly run the command line tool [EXAMPLES](https://compbiocore.github.io/VariantVisualization.jl/latest/examples/) found in the documentation.
 
 ## Installation
 
 ### Supported Operating Systems:
 
-macOS ( Sierra, High Sierra, and Mojave ), Windows, and Linux.
+macOS ( Sierra, High Sierra, and Mojave ), Windows (7 and 10), and Linux.
 
-To use VIVA, you must download the Julia programming language version >=1.0 and install the VariantVisualization.jl Julia package as well as the VIVA script.
+### Step 1: Install Julia
 
-Expected Time for Installation: Installation time depends on your network bandwidth, but should take less than 10 minutes for VIVA installation to install all dependency packages. Installing and using Julia packages for the first time takes longer than when using them in subsequent sessions.
+Download [Julia]("https://julialang.org/downloads/") and install the language following the [platform specific instructions](https://julialang.org/downloads/platform.html).
 
-*Note*: When installing VariantVisualization.jl and running VIVA remote compute clusters, you may need to load the OpenGl module in addition to loading the Julia module.
+Then, follow our [installation notes]("https://compbiocore.github.io/VariantVisualization.jl/latest/installation/") to add Julia to the path variable to run VIVA.
 
-### Command Line Tool
+### Step 2: Install VariantVisualization.jl
 
-1. Add VariantVisualization.jl using Pkg in the Julia REPL
+To run the VIVA command line tool and VIVA Jupyter Notebook, you'll need to install our VariantVisualization.jl Julia package which powers VIVA.
 
-	* Open the Julia REPL by typing `julia` into the command line
-	* Enter the Pkg manager by entering `]` into the REPL             
-  * Enter `add VariantVisualization` in the Pkg manager. This will install all of VIVA's dependencies.
+To install VariantVisualization.jl:
 
-2. Download the [VIVA](https://github.com/compbiocore/VariantVisualization.jl/blob/master/viva) tool script and save it to a working directory for your analysis.
+1. Open the command line or PowerShell
+2. Run the following block of code
 
-3. Navigate to your working directory and follow the [VIVA manual](https://compbiocore.github.io/VariantVisualization.jl/stable/) to generate your plots.
+>`julia`
 
-### Jupyter Notebook
+>`]`
+
+>`add VariantVisualization`
+
+>`exit()`
+
+### Step 3: Install the VIVA command line script
+
+Download the VIVA tool script and save it to a working directory for your analysis. Save your VCF file in the working directory.
+
+Copy and paste the following block of code into the command line or PowerShell:
+
+>mkdir new_folder/
+
+>cd new_folder/
+
+>curl -L https://raw.githubusercontent.com/compbiocore/VariantVisualization.jl/master/viva > viva
+
+### Optional Step: Install VIVA Jupyter Notebook
+
+To install the VIVA Jupyer Notebook:
 
 1. [Install Jupyter](https://jupyter.org/install)
-2. Install the VariantVisualization.jl Julia package following the Command Line Tool installation instructions above.
-3. Download the [VIVA Jupyter Notebook](https://github.com/compbiocore/VariantVisualization.jl/blob/master/VIVA.ipynb).
-4. Open the VIVA Jupyter Notebook following the instructions in the [manual](https://compbiocore.github.io/VariantVisualization.jl/latest/).
-4. Follow the in-notebook instructions to generate your plots.
+2. Download the [VIVA Jupyter Notebook](https://github.com/compbiocore/VariantVisualization.jl/blob/master/VIVA.ipynb).
 
-### Running VIVA with Docker or Docker Compose
+Then, follow the in-notebook instructions to generate your plots.
 
-Alternatively, you can run VIVA using the Docker images we've provided if you don't want to install Julia and the VariantVisualization.jl Julia package.
+## Run VIVA
 
-To run VIVA from a Docker image, first [install Docker](https://docs.docker.com/install/).
+Navigate in the Terminal or PowerShell to the directory containing the viva script run the VIVA command.
 
-Then double-click the Docker.app in the Applications folder to start Docker. You will see a whale icon in the top status bar to indicate that Docker is running and accessible from the terminal. You can quit Docker once you are finished using VIVA by clicking the Docker whale icon in the top status bar and clicking "Quit Docker Desktop."
+>cd new_folder/
 
-#### Using Docker
+>julia viva -f vcf.file arg1 arg2 arg3
 
-*Note* You must use the flag `--save_remotely` when running VIVA by using Docker.
+We provide test files to run [EXAMPLES](https://compbiocore.github.io/VariantVisualization.jl/latest/examples/) after installation.
 
-Once Docker is running, you can run VIVA by running the Docker commands below in the Mac/Linux terminal or Windows PowerShell.
-
-We provide two images, one with a Jupyter Notebook and one with a command line script for VIVA. You can run VIVA in a single command using these images. The command consists of calls to run the Docker image followed by the usual VIVA options.
-
-To run the images, follow these steps:
-
-Create a project folder and navigate to it:
-```shell
-mkdir project_x
-cd project_x
-```
-
-Make sure to add your project VCF files to that folder. That directory will be mapped to `/notebook/data` inside of the container.
-
-##### Run the VIVA Command Line Tool from a Docker image:
-
-*Note* Remember, you must use the flag `--save_remotely` when running VIVA by using Docker.
-
-- On Mac or Linux:
-```shell
-docker run -it --rm -v "$PWD":/data compbiocore/viva-cli --save_remotely arg1 arg2 arg3
-```
-
-- Example run:
-```shell
-docker run -it --rm -v "$PWD":/data compbiocore/viva-cli --save_remotely -f file.vcf -p -s pdf
-```
-
-- On Windows:
-```shell
-docker run -it --rm -v "${pwd}":/data compbiocore/viva-cli --save_remotely arg1 arg2 arg3
-```
-
-- Example run:
-```shell
-docker run -it --rm -v "${pwd}":/data compbiocore/viva-cli --save_remotely -f file.vcf -p -s pdf
-```
-
-##### Run the VIVA Jupyter Notebook from a Docker image:
-
-Copy and run the following line from the terminal or Windows PowerShell:
-
-- On Mac or Linux:
-```shell
-docker run --rm -p 8888:8888 -e JUPYTER_ENABLE_LAB=yes -v "$PWD":/notebook/data compbiocore/viva-notebook
-```
-Go to `http://0.0.0.0:8888/?token=<enter token here>`
-
-- On Windows:
-```shell
-docker run --rm -p 8888:8888 -e JUPYTER_ENABLE_LAB=yes -v "${pwd}":/notebook/data compbiocore/viva-notebook
-```
-Go to `http://0.0.0.0:8888/?token=<enter token here>`
-
-[Click here](https://jupyter-docker-stacks.readthedocs.io/en/latest/index.html) for more information about Jupyter Docker Images.
-
-#### Using Docker Compose
-
-To run the images with Docker Compose, copy the [`docker-compose.yml`](https://github.com/compbiocore/viva-docker/blob/master/docker-compose.yml) file to a local directory. From that same directory, run the command as it appears below.
-
-*Note*: Your current directory will mount to `/notebook/data` in the notebook image and to `/data` in the CLI image.
-
-- Notebook
-```shell
-docker-compose up viva-notebook
-```
-
-- Command Line Tool
-```shell
-docker-compose run viva -f --save_remotely /data/file.vcf arg2 arg3 ...
-```
-
-### Latest Features
-
-To stay up to date with cutting edge development features install VariantVisualization.jl from the Master branch.
-
-Using git from the command line:
-
-```
-git clone https://github.com/compbiocore/VariantVisualization.jl
-```
-
-or from the Julia REPL (useful if using the PowerShell and don't have git installed):
-
-```julia
-using Pkg
-Pkg.clone("https://github.com/compbiocore/VariantVisualization.jl")
-```
-
-
-### For Developers
+## For Developers
 
 VIVA Jupyter notebook and the VIVA the command line tool are built with functions contained in our VariantVisualization.jl package.
 
-Developers may contribute to these open source tools by using [functions contained within VariantVisualization.jl](https://github.com/compbiocore/VariantVisualization.jl/tree/master/src/) which are carefully documented with docstrings.
+Developers may contribute to these open source tools by using [functions contained within VariantVisualization.jl](https://github.com/compbiocore/VariantVisualization.jl/tree/master/src/) which are documented with docstrings.
 
 We have included in-line comments within the code for the [VIVA command line tool](https://github.com/compbiocore/VariantVisualization.jl/tree/master/viva).
 
-The ***VIVA Jupyter notebook*** is powered by a [main function](https://github.com/compbiocore/VariantVisualization.jl/tree/master/src/new_notebook_utils.jl) which takes arguments defined by the user in the notebook. We welcome users to post in issues to request a new feature or bug fix.
+The VIVA Jupyter notebook is powered by a [main function](https://github.com/compbiocore/VariantVisualization.jl/tree/master/src/new_notebook_utils.jl) which takes arguments defined by the user in the notebook.
 
 
 ## Contributing and Questions
