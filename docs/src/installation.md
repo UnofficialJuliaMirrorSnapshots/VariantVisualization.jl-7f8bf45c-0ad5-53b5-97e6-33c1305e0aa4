@@ -1,4 +1,4 @@
-#Installation
+# Installation
 
 ### Supported Operating Systems:
 
@@ -38,6 +38,29 @@ julia
 ]add VarianatVisualization
 exit()
 ```
+### Step 3: Run `viva`
+
+#### Mac and Linux
+
+On Mac and Linux, open another terminal window, navigate to your project folder and run:
+
+```shell
+viva -f filename.vcf -s <format> -o output/directory/
+```
+
+#### Windows
+
+!!! Warning
+    Viva will not work with Win32.
+
+On windows, after installing VariantVisualization, open a new PowerShell and run:
+```shell
+viva -f filename.vcf -s <format> -o output/directory/
+```
+
+You'll then be prompted to select an application to open the script. Select the Julia executable, that is normally located
+at `C:\Users\<username>\AppData\Local\Julia-<version>\bin\`.
+
 
 
 ### Optional Step: Install VIVA Jupyter Notebook
@@ -53,15 +76,9 @@ Then, follow the in-notebook instructions to generate your plots.
 
 To stay up to date with cutting edge development features install VariantVisualization.jl from the Master branch.
 
-Using git from the command line:
+From the Julia REPL:
 
-```
-git clone https://github.com/compbiocore/VariantVisualization.jl
-```
-
-or from the Julia REPL (useful if using the PowerShell and don't have git installed):
-
-```julia
+```shell
 julia
 ]add VariantVisualization#master
 ```
@@ -69,7 +86,7 @@ julia
 ### For Developers
 
 Install VariantVisualization in development mode:
-```julia
+```shell
 julia
 ]dev VariantVisualization
 ```
@@ -110,9 +127,8 @@ mkdir project_x
 cd project_x
 ```
 
-Make sure to add your project VCF files to that folder. That directory will be mapped to `/notebook/data` inside of the container.
+Make sure to add your project VCF files to that folder.
 
-When entering the filename of the VCF file and files to support filtering options, you should include `/data/...` in the path to your files.
 
 ##### Run the VIVA Command Line Tool from a Docker image:
 
@@ -120,22 +136,22 @@ When entering the filename of the VCF file and files to support filtering option
 
 - On Mac or Linux:
 ```shell
-docker run -it --rm -v "$PWD":/data compbiocore/viva-cli:v0.3.8 --save_remotely arg1 arg2 arg3
+docker run -it --rm -v "$PWD":/data compbiocore/viva-cli viva --save_remotely -f file.vcf -s pdf -o output
 ```
 
 - Example run:
 ```shell
-docker run -it --rm -v "$PWD":/data compbiocore/viva-cli:v0.3.8 --save_remotely -f file.vcf -p
+docker run -it --rm -v "$PWD":/data compbiocore/viva-cli viva --save_remotely -f file.vcf -s pdf -o output
 ```
 
 - On Windows:
 ```shell
-docker run -it --rm -v "${pwd}":/data compbiocore/viva-cli:v0.3.8 --save_remotely arg1 arg2 arg3
+docker run -it --rm -v "${pwd}":/data compbiocore/viva-cli viva --save_remotely -f file.vcf -s pdf -o output
 ```
 
 - Example run:
 ```shell
-docker run -it --rm -v "${pwd}":/data compbiocore/viva-cli:v0.3.8 --save_remotely -f file.vcf -p
+docker run -it --rm -v "${pwd}":/data compbiocore/viva-cli viva --save_remotely -f file.vcf -s pdf -o output
 ```
 
 ##### Run the VIVA Jupyter Notebook from a Docker image:
@@ -144,21 +160,21 @@ Copy and run the following line from the terminal or Windows PowerShell:
 
 - On Mac or Linux:
 ```shell
-docker run --rm -p 8888:8888 -e JUPYTER_ENABLE_LAB=yes -v "$PWD":/home/jovyan/notebook/data compbiocore/viva-notebook
+docker run --rm -p 8888:8888 -e JUPYTER_ENABLE_LAB=yes -v "$PWD":/home/jovyan/notebook/data compbiocore/viva-notebook:v0.3.9
 ```
 
 Go to the following url in your internet browser. You'll receive a token to enter into the url.
 
-Go to `http://0.0.0.0:8888/?token=<enter token here>`
+Go to `http://127.0.0.1:8888/?token=<enter token here>`
 
 - On Windows:
 ```shell
-docker run --rm -p 8888:8888 -e JUPYTER_ENABLE_LAB=yes -v "${pwd}":/home/jovyan/notebook/data compbiocore/viva-notebook
+docker run --rm -p 8888:8888 -e JUPYTER_ENABLE_LAB=yes -v "${pwd}":/home/jovyan/notebook/data compbiocore/viva-notebook:v0.3.9
 ```
 
 Go to the following url in your internet browser. You'll receive a token to enter into the url.
 
-Go to `http://0.0.0.0:8888/?token=<enter token here>`
+Go to `http://127.0.0.1:8888/?token=<enter token here>`
 
 [Click here](https://jupyter-docker-stacks.readthedocs.io/en/latest/index.html) for more information about Jupyter Docker Images.
 
