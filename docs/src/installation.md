@@ -35,23 +35,33 @@ To install VariantVisualization.jl:
 
 ```julia
 julia
-]
-add VariantVisualization
+]add VariantVisualization
 exit()
 ```
+### Step 3: Run `viva`
+
+#### Mac and Linux
+
+On Mac and Linux, open another terminal window, navigate to your project folder and run:
+
+```shell
+viva -f filename.vcf -s <format> -o output/directory/
+```
+
+#### Windows
+
+!!! Warning
+    Viva will not work with Win32.
+
+On windows, after installing VariantVisualization, open a new PowerShell and run:
+```shell
+viva -f filename.vcf -s <format> -o output/directory/
+```
+
+You'll then be prompted to select an application to open the script. Select the Julia executable, that is normally located
+at `C:\Users\<username>\AppData\Local\Julia-<version>\bin\`.
 
 
-### Step 3: Install the VIVA command line script
-
-Download the VIVA tool script and save it to a working directory for your analysis. Save your VCF file in the working directory.
-
-Copy and paste the following block of code into the command line or PowerShell:
-
->mkdir new_folder/
-
->cd new_folder/
-
->curl -L https://raw.githubusercontent.com/compbiocore/VariantVisualization.jl/master/viva > viva
 
 ### Optional Step: Install VIVA Jupyter Notebook
 
@@ -66,20 +76,19 @@ Then, follow the in-notebook instructions to generate your plots.
 
 To stay up to date with cutting edge development features install VariantVisualization.jl from the Master branch.
 
-from the Julia REPL (useful if using the PowerShell and don't have git installed):
+From the Julia REPL:
 
-```julia
-]
-add VariantVisualization#master
+```shell
+julia
+]add VariantVisualization#master
 ```
 
 ### For Developers
 
-To add VariantVisualization in develop mode:
-
-```julia
-]
-dev VariantVisualization
+Install VariantVisualization in development mode:
+```shell
+julia
+]dev VariantVisualization
 ```
 
 VIVA Jupyter notebook and the VIVA the command line tool are built with functions contained in our VariantVisualization.jl package.
@@ -90,19 +99,16 @@ We have included in-line comments within the code for the [VIVA command line too
 
 The ***VIVA Jupyter notebook*** is powered by a [main function](https://github.com/compbiocore/VariantVisualization.jl/tree/master/src/new_notebook_utils.jl) which takes arguments defined by the user in the notebook. We welcome users to post in issues to request a new feature or bug fix.
 
-## Installation Features Under Development
 
-### Running VIVA with Docker or Docker Compose (Under Active Development)
+### Running VIVA with Docker or Docker Compose
 
-Soon, you will be able to run VIVA using Docker images. This is not yet a supported feature. The instructions below will be helpful once this is supported.
-
-Alternatively, you can run VIVA using the Docker images we've provided if you don't want to install Julia and the VariantVisualization.jl Julia package. You may only save images to HTML format using the Docker, for now, due to technical limitations of dependency packages. We've actively developing a feature to save to all formats using Docker.
+You can run VIVA using the Docker images we've provided if you don't want to install Julia and the VariantVisualization.jl Julia package. 
 
 To run VIVA from a Docker image, first [install Docker](https://docs.docker.com/install/).
 
 Then double-click the Docker.app in the Applications folder to start Docker. You will see a whale icon in the top status bar to indicate that Docker is running and accessible from the terminal. You can quit Docker once you are finished using VIVA by clicking the Docker whale icon in the top status bar and clicking "Quit Docker Desktop."
 
-#### Using Docker
+### Using Docker
 
 *Note*: You must use the flag `--save_remotely` when running VIVA by using Docker.
 
@@ -118,35 +124,25 @@ mkdir project_x
 cd project_x
 ```
 
-Make sure to add your project VCF files to that folder. That directory will be mapped to `/notebook/data` inside of the container.
+Make sure to add your project VCF files to that folder.
 
-When entering the filename of the VCF file and files to support filtering options, you should include `/data/...` in the path to your files.
 
-##### Run the VIVA Command Line Tool from a Docker image:
+#### Run the VIVA Command Line Tool from a Docker image:
 
 *Note*: Remember, you must use the flag `--save_remotely` when running VIVA by using Docker.
 
-- On Mac or Linux:
+- Example run on Mac or Linux:
 ```shell
-docker run -it --rm -v "$PWD":/data compbiocore/viva-cli:v0.3.9 /script/viva --save_remotely -f file.vcg -s pdf -o /data [...args]
+docker run -it --rm -v "$PWD":/data compbiocore/viva-cli viva --save_remotely -f file.vcf -s pdf -o output
 ```
 
-- Example run:
+- Example run on Windows:
 ```shell
-docker run -it --rm -v "$PWD":/data compbiocore/viva-cli:v0.3.9 /script/viva --save_remotely -f file.vcf -s pdf -o /data [...args]
+docker run -it --rm -v ${pwd}:/data compbiocore/viva-cli viva --save_remotely -f file.vcf -s pdf -o output
 ```
 
-- On Windows:
-```shell
-docker run -it --rm -v "${pwd}":/data compbiocore/viva-cli:v0.3.9 /script/viva --save_remotely -f file.vcf -s pdf -o /data [...args]
-```
 
-- Example run:
-```shell
-docker run -it --rm -v "${pwd}":/data compbiocore/viva-cli:v0.3.9 /script/viva --save_remotely -f file.vcf -s pdf -o /data [...args]
-```
-
-##### Run the VIVA Jupyter Notebook from a Docker image:
+#### Run the VIVA Jupyter Notebook from a Docker image:
 
 Copy and run the following line from the terminal or Windows PowerShell:
 
@@ -157,33 +153,18 @@ docker run --rm -p 8888:8888 -e JUPYTER_ENABLE_LAB=yes -v "$PWD":/home/jovyan/no
 
 Go to the following url in your internet browser. You'll receive a token to enter into the url.
 
-Go to `http://0.0.0.0:8888/?token=<enter token here>`
+Go to `http://127.0.0.1:8888/?token=<enter token here>`
 
 - On Windows:
 ```shell
-docker run --rm -p 8888:8888 -e JUPYTER_ENABLE_LAB=yes -v "${pwd}":/home/jovyan/notebook/data compbiocore/viva-notebook:v0.3.9
+docker run --rm -p 8888:8888 -e JUPYTER_ENABLE_LAB=yes -v ${pwd}:/home/jovyan/notebook/data compbiocore/viva-notebook:v0.3.9
 ```
 
 Go to the following url in your internet browser. You'll receive a token to enter into the url.
 
-Go to `http://0.0.0.0:8888/?token=<enter token here>`
+Go to `http://127.0.0.1:8888/?token=<enter token here>`
 
 [Click here](https://jupyter-docker-stacks.readthedocs.io/en/latest/index.html) for more information about Jupyter Docker Images.
 
-#### Using Docker Compose
-
-To run the images with Docker Compose, install Docker following the steps above and then install [Docker Compose[(https://docs.docker.com/compose/). Then copy the [docker-compose.yml](https://github.com/compbiocore/viva-docker/blob/master/docker-compose.yml) file to a local directory. From that same directory, run the command as it appears below.
-
-*Note*: Your current directory will mount to `/notebook/data` in the notebook image and to `/data` in the CLI image.
-
-- Notebook
-```shell
-docker-compose up viva-notebook
-```
-
-- Command Line Tool
-```shell
-docker-compose run viva -f file.vcf --save_remotely arg3 arg4 ...
-```
 
 -----
